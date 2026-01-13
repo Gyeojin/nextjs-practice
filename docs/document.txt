@@ -24,3 +24,35 @@ use client; :
 -hydration(수화) : SSR로 랜더링된 html이 브라우저에 도착한 후, 자바스크립트 파일이 모두 다운받아지면, 자바스크립트가 html을 장악하게 된다. 이 과정을 수화라고 한다. 수화가 완료된 후에는 react application이 된다.
 /about-us ----------> 단순 HTML --------> init react application(단순 HTML) ------>interactive react
 
+use client; 가 붙은 컴포넌트는 CSR로 랜더링된다.
+ㄴ백엔드에서 랜더링되고 프론트에서 hydration된다는 의미.
+ㄴ사용자(브라우저)는 use client javascript만 다운받기 때문에, 페이지 로딩 등이 향상된다.
+
+
+layout
+ㄴnext.js는 먼저 layout을 랜더링한 후, 그 안에 page를 랜더링한다.
+ㄴurl을 찾아 해당 페이지를 넣는다.
+ㄴlayout은 중첩이 가능하다.
+
+router group
+ㄴ라우팅에 영향을 미치지 않는 폴더
+ㄴ괄호로 묶으면 url을 생성하지 않는다.
+
+metadata
+ㄴ메타데이터는 중첩이 아닌 병합이다.
+ㄴ각 페이지에서 metadata를 설정할 수 있다.
+ㄴpage나 layout에서만 metadata를 설정할 수 있다.
+ㄴ메타데이터 템플릿도 만들 수 있음.
+
+dynamic routes
+ㄴ파일 시스템으로 핸들링.
+ㄴ동적 라우팅을 위해서 [] -> 내부에 원하는 변수를 집어넣는 것으로 생성.
+ㄴ내부에 page.tsx가 있으면 next.js는 그 파일을 읽는다.
+ex:
+export default function MovieDetail(props: ScriptProps) {
+  console.log(props);
+  return <h1>Movie Detail Page</h1>;
+}
+-> props는 { params: { id: string }, searchParams: {} } 형태로 들어온다.
+
+data fetching
