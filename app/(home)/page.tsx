@@ -1,13 +1,15 @@
 // 'use client';
 
+import Link from 'next/dist/client/link';
+
 export const metadata = {
   title: 'Home',
 };
 
-const API_URL = 'https://nomad-movies.nomadcoders.workers.dev/movies';
+export const API_URL = 'https://nomad-movies.nomadcoders.workers.dev/movies';
 
 async function getMovies() {
-  await new Promise((resolve) => setTimeout(resolve, 10000)); // 2초 지연
+  // await new Promise((resolve) => setTimeout(resolve, 1000)); // 2초 지연
   const response = await fetch(API_URL);
   const json = await response.json();
   return json;
@@ -15,5 +17,14 @@ async function getMovies() {
 
 export default async function HomePage() {
   const movies = await getMovies();
-  return <div>{JSON.stringify(movies)}</div>;
+  return (
+    <div>
+      {movies.map((movie: any) => (
+        <li key={movie.id}>
+          <Link href={`/movies/${movie.id}`}>{movie.title}</Link>
+          {movie.title}
+        </li>
+      ))}
+    </div>
+  );
 }
