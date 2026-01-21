@@ -1,14 +1,6 @@
-import { API_URL } from '../../../(home)/page';
-
-async function getMovie(id: string) {
-  const response = await fetch(`${API_URL}/${id}`);
-  return await response.json();
-}
-
-async function getVideos(id: string) {
-  const response = await fetch(`${API_URL}/${id}/videos`);
-  return await response.json();
-}
+import { Suspense } from 'react';
+import MovieInfo from '../../../../components/movie-info';
+import MovieVideos from '../../../../components/movie-videos';
 
 export default async function MovieDetail({
   params: { id },
@@ -16,7 +8,15 @@ export default async function MovieDetail({
   params: { id: string };
 }) {
   // Promise.all 병렬처리
-  const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
-  console.log(id);
-  return <h1>{movie.title}</h1>;
+  // const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
+  return (
+    <div>
+      <Suspense fallback={<h1>Loading Movie Info...</h1>}>
+        <MovieInfo id={id} />
+      </Suspense>
+      <Suspense fallback={<h1>Loading Movie Videos...</h1>}>
+        <MovieVideos id={id} />
+      </Suspense>
+    </div>
+  );
 }
